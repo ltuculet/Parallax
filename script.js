@@ -91,3 +91,61 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+// Parallax effect for background image using device orientation
+if (window.DeviceOrientationEvent) {
+    window.addEventListener('deviceorientation', function(event) {
+        const fondo = document.getElementById('fondo');
+        if (!fondo) return;
+
+        let beta = event.beta; // Front-to-back tilt
+        let gamma = event.gamma; // Left-to-right tilt
+
+        const maxTilt = 20; // Max tilt in degrees for full effect range
+
+        let yMovement = (beta / maxTilt);
+        let xMovement = (gamma / maxTilt);
+
+        yMovement = Math.max(-1, Math.min(1, yMovement));
+        xMovement = Math.max(-1, Math.min(1, xMovement));
+
+        const movementStrength = 20; // Max percentage to move the image from its -20% offset
+
+        const transformX = -xMovement * movementStrength;
+        const transformY = -yMovement * movementStrength;
+
+        // Using requestAnimationFrame for smoother animations
+        // and only updating if the transform value has changed to save resources.
+        const newTransform = `translate(${transformX}%, ${transformY}%)`;
+        if (fondo.style.transform !== newTransform) {
+            requestAnimationFrame(() => {
+                fondo.style.transform = newTransform;
+            });
+        }
+    }, true); // Using capture phase for potentially faster response, though not strictly necessary.
+} else {
+    console.log("DeviceOrientationEvent not supported. Falling back to mousemove for parallax.");
+    // Fallback for desktop: mouse-based parallax
+    document.addEventListener('mousemove', function(e) {
+        const fondo = document.getElementById('fondo');
+        if (!fondo) return;
+
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+
+        const mouseX = (e.clientX - width / 2) / width; // -0.5 to 0.5
+        const mouseY = (e.clientY - height / 2) / height; // -0.5 to 0.5
+
+        const movementStrength = 10; // Reduced strength for mouse, more subtle
+
+        const transformX = -mouseX * movementStrength;
+        const transformY = -mouseY * movementStrength;
+
+        const newTransform = `translate(${transformX}%, ${transformY}%)`;
+        if (fondo.style.transform !== newTransform) {
+            requestAnimationFrame(() => {
+                fondo.style.transform = newTransform;
+            });
+        }
+    });
+}

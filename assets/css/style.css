@@ -18,24 +18,42 @@ body {
 
 .animacion {
     z-index: 1;
-    overflow: clip !important;
+    overflow: hidden !important; /* Cambiado de clip a hidden */
+    position: absolute; /* Para posicionamiento y tamaño completo */
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    backdrop-filter: blur(8px); /* Aplicar el blur aquí */
+    -webkit-backdrop-filter: blur(8px); /* Aplicar el blur aquí */
 }
 
-.animacion img {
-    animation: zoom-in-zoom-out 30s ease infinite;
+/* Estilos específicos para la imagen de fondo con id="fondo" */
+/* Es importante que el selector sea lo suficientemente específico si hay otros .animacion img */
+.animacion img#fondo {
+    /* animation: zoom-in-zoom-out 30s ease infinite; */ /* Animación de zoom eliminada */
     box-sizing: border-box !important;
-    object-fit: cover !important;
-    position: center center !important;
-    overflow: clip;
-    height: 100vh;
+    object-fit: cover !important; /* Asegura que la imagen cubra el espacio asignado sin deformarse */
+    position: absolute !important; /* Clave para el control de posición mediante JavaScript */
+
+    /* Hacemos la imagen más grande que su contenedor (.animacion) para tener margen de movimiento */
+    width: 140%;
+    height: 140%;
+
+    /* Posición inicial: la imagen está centrada dentro de .animacion */
+    top: -20%;
+    left: -20%;
+
+    /* Transición suave para los cambios de 'transform' aplicados por JavaScript */
+    transition: transform 0.1s linear;
 }
 
 .lamina {
     z-index: 2;
-    background: rgba(0, 0, 0, 0.61);
+    background: transparent; /* Para que se vea el fondo con blur de .animacion */
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    /* backdrop-filter: blur(8px); */ /* Eliminado, movido a .animacion */
+    /* -webkit-backdrop-filter: blur(8px); */ /* Eliminado, movido a .animacion */
     border: 1px solid rgba(0, 0, 0, 0.3);
     flex-direction: column;
     gap:20px;
