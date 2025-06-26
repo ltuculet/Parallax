@@ -24,8 +24,8 @@ body {
     height: 100vh;
     top: 0;
     left: 0;
-    backdrop-filter: blur(8px); /* Aplicar el blur aquí */
-    -webkit-backdrop-filter: blur(8px); /* Aplicar el blur aquí */
+    /* backdrop-filter: blur(8px); */ /* Eliminado para quitar el desenfoque */
+    /* -webkit-backdrop-filter: blur(8px); */ /* Eliminado para quitar el desenfoque */
 }
 
 /* Estilos específicos para la imagen de fondo con id="fondo" */
